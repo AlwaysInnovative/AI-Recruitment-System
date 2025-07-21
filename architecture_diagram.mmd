@@ -1,0 +1,41 @@
+graph TD
+    subgraph User Interfaces
+        A[Frontend Dashboard]
+    end
+
+    subgraph Core Services
+        B[Backend API]
+        C[Database]
+        D[CV Processing Service]
+        E[AI Matching Engine]
+        F[Communication Service]
+        G[Payment Gateway Integration]
+    end
+
+    subgraph External Systems
+        H[Job Seeker]
+        I[Email/SMS Provider]
+        J[Recruitment Agency]
+    end
+
+    A -- interacts with --> B
+    H -- applies via --> A
+    B -- stores/retrieves --> C
+    B -- sends CV to --> D
+    D -- processes and stores --> C
+    B -- triggers --> E
+    E -- provides score to --> B
+    B -- sends messages via --> F
+    F -- communicates with --> I
+    B -- handles payments via --> G
+    G -- processes payments to --> J
+
+    A -- manages job postings --> B
+    A -- views candidates/applications --> B
+    A -- manages commissions --> B
+    H -- submits CV --> D
+    B -- triggers matching --> E
+    B -- triggers communication --> F
+    B -- triggers payment --> G
+
+
