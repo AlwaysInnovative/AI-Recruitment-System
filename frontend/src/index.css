@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "tw-animate-css";
+
+/* Your custom CSS variables or overrides can go here */
+
