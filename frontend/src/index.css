@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "tw-animate-css";
-
 /* Custom CSS variables can be defined here or imported from another file */
 :root {
   --radius: 0.625rem;
@@ -75,3 +73,4 @@ body {
   background-color: var(--color-background);
   color: var(--color-foreground);
 }
+
