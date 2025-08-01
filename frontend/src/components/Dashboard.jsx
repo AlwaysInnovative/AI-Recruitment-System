@@ -3,8 +3,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search, Plus, Eye, Mail } from 'lucide-react';
+import { 
+  Search, 
+  Plus, 
+  Eye, 
+  Mail, 
+  Briefcase, 
+  Users, 
+  FileText, 
+  TrendingUp 
+} from 'lucide-react';
 import './Dashboard.css';
+
 
 // Use environment variable for backend API base URL
 const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://0vhlizckd7jk.manussite.space/api';
