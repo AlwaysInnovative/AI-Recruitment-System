@@ -3,9 +3,9 @@ export default {
   content: [
     './index.html',
     './src/**/*.{js,jsx,ts,tsx}',
-    './components/**/*.{js,jsx,ts,tsx}',  // if you keep UI components here
+    './components/**/*.{js,jsx,ts,tsx}', // optional, only if you keep components here
   ],
-  darkMode: 'class', // You use `.dark` class for dark mode in your CSS
+  darkMode: 'class', // Use the `.dark` class to toggle dark mode
   theme: {
     extend: {
       colors: {
@@ -38,7 +38,7 @@ export default {
       },
       borderRadius: {
         sm: 'var(--radius-sm)',
-        DEFAULT: 'var(--radius)',
+        DEFAULT: 'var(--radius)', // 'DEFAULT' so you can do 'rounded' in tailwind
         md: 'var(--radius-md)',
         lg: 'var(--radius-lg)',
         xl: 'var(--radius-xl)',
@@ -46,4 +46,4 @@ export default {
     },
   },
   plugins: [],
-}
+};
