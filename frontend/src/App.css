@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "tw-animate-css";
+/* Removed: @import "tw-animate-css";  <-- file missing */
 
 /* Custom properties - keep as is */
 @custom-variant dark (&:is(.dark *));
