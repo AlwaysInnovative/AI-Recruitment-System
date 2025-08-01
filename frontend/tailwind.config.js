@@ -1,11 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    './index.html',
-    './src/**/*.{js,jsx,ts,tsx}',
-    './components/**/*.{js,jsx,ts,tsx}', // optional, only if you keep components here
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}", // if you use a components folder
   ],
-  darkMode: 'class', // Use the `.dark` class to toggle dark mode
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -24,6 +24,7 @@ export default {
         accent: 'var(--color-accent)',
         'accent-foreground': 'var(--color-accent-foreground)',
         destructive: 'var(--color-destructive)',
+        'destructive-foreground': 'var(--color-destructive-foreground)',
         border: 'var(--color-border)',
         input: 'var(--color-input)',
         ring: 'var(--color-ring)',
@@ -38,7 +39,7 @@ export default {
       },
       borderRadius: {
         sm: 'var(--radius-sm)',
-        DEFAULT: 'var(--radius)', // 'DEFAULT' so you can do 'rounded' in tailwind
+        DEFAULT: 'var(--radius)',
         md: 'var(--radius-md)',
         lg: 'var(--radius-lg)',
         xl: 'var(--radius-xl)',
