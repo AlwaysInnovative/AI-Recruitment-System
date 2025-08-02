@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "postinstall": "vite build"  // Added for Vercel deployment
+    "postinstall": "vite build" 
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
