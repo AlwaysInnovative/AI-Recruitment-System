@@ -1,7 +1,21 @@
-pnpm-lock.yaml
+# Don't upload local environments and sensitive files
+.env
+.env.*.local
 *.log
 *.local
-*.env
-node_modules
-dist
+
+# Build artifacts (Vercel builds itself, no need to upload)
+dist/
+build/
+
+# Local-only files
+node_modules/
+.pnpm-debug.log
+.pnpm-store/
+
+# Dependency lockfiles that should not be uploaded (but still used in build step)
+pnpm-lock.yaml
+
+# Vercel cache or local config (optional, only if used)
+.vercel/
 
