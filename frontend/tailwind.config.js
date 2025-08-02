@@ -3,9 +3,9 @@ const config = {
   content: [
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
-    "./components/**/*.{js,jsx,ts,tsx}", // if you use a components folder
+    "./components/**/*.{js,jsx,ts,tsx}", // include components folder if used
   ],
-  darkMode: 'class',
+  darkMode: 'class', // enables dark mode via a CSS class
   theme: {
     extend: {
       colors: {
