@@ -3,10 +3,9 @@ const config = {
   content: [
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
-    // You already included components folder inside src, but adding this explicitly is fine if you have a separate components directory:
     "./components/**/*.{js,jsx,ts,tsx}",
   ],
-  darkMode: 'class', // Enables dark mode via CSS class, e.g. <html class="dark">
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
