@@ -44,6 +44,9 @@ module.exports = {
         lg: 'var(--radius-lg)',
         xl: 'var(--radius-xl)',
       },
+      outline: {
+        'ring/50': '2px solid rgba(59, 130, 246, 0.5)',
+      },
     },
   },
   plugins: [],
