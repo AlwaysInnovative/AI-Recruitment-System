@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom CSS variables can be defined here or imported from another file */
+/* Custom CSS variables */
 :root {
   --radius: 0.625rem;
   --radius-sm: calc(var(--radius) - 4px);
@@ -10,6 +10,7 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
+  /* Using oklch(), fallback to fallback hex if needed */
   --color-background: oklch(1 0 0);
   --color-foreground: oklch(0.145 0 0);
   --color-card: oklch(1 0 0);
@@ -68,9 +69,12 @@
   --color-sidebar-ring: oklch(0.556 0 0);
 }
 
-/* Apply background and text color globally */
+/* Global styles */
 body {
+  min-height: 100vh;
+  margin: 0;
   background-color: var(--color-background);
   color: var(--color-foreground);
+  color-scheme: light dark; /* helps browsers adjust UI */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
-
