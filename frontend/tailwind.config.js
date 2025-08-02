@@ -45,7 +45,7 @@ module.exports = {
         xl: 'var(--radius-xl)',
       },
       outline: {
-        'ring/50': '2px solid rgba(59, 130, 246, 0.5)',
+        'ring/50': '2px solid rgba(59, 130, 246, 0.5)', // custom outline class
       },
     },
   },
