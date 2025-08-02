@@ -27,10 +27,10 @@ const Root = () => {
       updateHtmlClass(e.matches);
     };
 
+    // Use modern event listeners, fallback for Safari
     if (mediaQuery.addEventListener) {
       mediaQuery.addEventListener('change', handler);
     } else if (mediaQuery.addListener) {
-      // For Safari
       mediaQuery.addListener(handler);
     }
 
