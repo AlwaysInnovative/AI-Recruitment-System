@@ -11,11 +11,12 @@
     "format": "prettier --write .",
     "check-types": "tsc --noEmit",
     "prepare": "husky install || true",
-    "postinstall": "prisma generate"
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "@prisma/client": "^5.12.1",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
@@ -86,7 +87,17 @@
     "@types/lodash": "^4.14.202",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-svgr": "^4.2.0",
-    "husky": "^8.0.3"
+    "husky": "^8.0.3",
+    "prisma": "^5.12.1"
   },
-  "packageManager": "pnpm@8.15.4"
+  "packageManager": "pnpm@8.15.4",
+  "pnpm": {
+    "overrides": {
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0"
+    }
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  }
 }
