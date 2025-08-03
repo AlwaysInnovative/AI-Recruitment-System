@@ -4,7 +4,6 @@ import eslint from 'vite-plugin-eslint'
 import svgr from 'vite-plugin-svgr'
 import path from 'path'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react({
@@ -19,6 +18,17 @@ export default defineConfig({
     }),
     svgr()
   ],
+  css: {
+    postcss: {
+      plugins: [
+        require('tailwindcss'),
+        require('autoprefixer')
+      ]
+    },
+    modules: {
+      localsConvention: 'camelCase'
+    }
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -38,12 +48,23 @@ export default defineConfig({
       output: {
         manualChunks: {
           react: ['react', 'react-dom'],
-          vendor: ['lodash', 'zod', 'date-fns']
+          vendor: ['lodash', 'zod', 'date-fns'],
+          ui: [
+            '@radix-ui/react-*', 
+            'class-variance-authority',
+            'clsx',
+            'lucide-react'
+          ]
         }
       }
     }
   },
   optimizeDeps: {
-    include: ['@emotion/react', '@emotion/styled']
+    include: [
+      '@emotion/react', 
+      '@emotion/styled',
+      'tailwindcss',
+      'autoprefixer'
+    ]
   }
 })
