@@ -1,43 +1,49 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import eslint from 'vite-plugin-eslint';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import eslint from 'vite-plugin-eslint'
+import svgr from 'vite-plugin-svgr'
+import path from 'path'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react({
       jsxImportSource: '@emotion/react',
       babel: {
-        plugins: ['@emotion/babel-plugin'],
-      },
+        plugins: ['@emotion/babel-plugin']
+      }
     }),
-    eslint()
+    eslint({
+      cache: false,
+      include: ['./src/**/*.ts', './src/**/*.tsx']
+    }),
+    svgr()
   ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      'lodash': path.resolve(__dirname, 'node_modules/lodash'),
+      '@assets': path.resolve(__dirname, './src/assets')
     }
   },
+  server: {
+    port: 3000,
+    open: true,
+    host: true
+  },
   build: {
-    commonjsOptions: {
-      include: [/lodash/, /node_modules/]
-    },
+    outDir: 'dist',
+    emptyOutDir: true,
+    sourcemap: true,
     rollupOptions: {
-      external: ['react', 'react-dom'],
       output: {
         manualChunks: {
-          lodash: ['lodash'],
-          radix: [/@radix-ui/],
-          vendor: ['react', 'react-dom', 'react-router-dom']
+          react: ['react', 'react-dom'],
+          vendor: ['lodash', 'zod', 'date-fns']
         }
       }
     }
   },
   optimizeDeps: {
-    include: ['lodash']
+    include: ['@emotion/react', '@emotion/styled']
   }
-});
+})
