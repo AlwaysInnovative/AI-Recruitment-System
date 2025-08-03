@@ -4,14 +4,14 @@ import {
   CardContent, 
   CardHeader, 
   CardTitle 
-} from '../../components/ui/card';  // Changed to relative path
-import { Button } from '../../components/ui/button';  // Changed to relative path
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { 
   Tabs, 
   TabsContent, 
   TabsList, 
   TabsTrigger 
-} from '../../components/ui/tabs';  // Changed to relative path
+} from '@/components/ui/tabs';
 import { 
   Search, 
   Plus, 
@@ -47,7 +47,6 @@ const Dashboard = () => {
           fetch(`${API_BASE}/applications`)
         ]);
 
-        // Enhanced error handling
         if (!jobsRes.ok) throw new Error('Failed to fetch jobs');
         if (!candidatesRes.ok) throw new Error('Failed to fetch candidates');
         if (!applicationsRes.ok) throw new Error('Failed to fetch applications');
@@ -58,10 +57,9 @@ const Dashboard = () => {
           applicationsRes.json(),
         ]);
 
-        // Calculate average matching score with additional validation
         const validScores = applicationsData
           .filter(app => typeof app.matching_score === 'number' && !isNaN(app.matching_score))
-          .map(app => Math.min(Math.max(app.matching_score, 0), 1)); // Ensure score is between 0-1
+          .map(app => Math.min(Math.max(app.matching_score, 0), 1));
 
         const avgScore = validScores.length > 0
           ? (validScores.reduce((sum, score) => sum + score, 0) / validScores.length)
