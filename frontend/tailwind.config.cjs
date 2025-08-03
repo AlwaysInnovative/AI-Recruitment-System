@@ -9,42 +9,89 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: 'var(--color-background)',
-        foreground: 'var(--color-foreground)',
-        card: 'var(--color-card)',
-        'card-foreground': 'var(--color-card-foreground)',
-        popover: 'var(--color-popover)',
-        'popover-foreground': 'var(--color-popover-foreground)',
-        primary: 'var(--color-primary)',
-        'primary-foreground': 'var(--color-primary-foreground)',
-        secondary: 'var(--color-secondary)',
-        'secondary-foreground': 'var(--color-secondary-foreground)',
-        muted: 'var(--color-muted)',
-        'muted-foreground': 'var(--color-muted-foreground)',
-        accent: 'var(--color-accent)',
-        'accent-foreground': 'var(--color-accent-foreground)',
-        destructive: 'var(--color-destructive)',
-        'destructive-foreground': 'var(--color-destructive-foreground)',
-        border: 'var(--color-border)',
-        input: 'var(--color-input)',
-        ring: 'var(--color-ring)',
-        sidebar: 'var(--color-sidebar)',
-        'sidebar-foreground': 'var(--color-sidebar-foreground)',
-        'sidebar-primary': 'var(--color-sidebar-primary)',
-        'sidebar-primary-foreground': 'var(--color-sidebar-primary-foreground)',
-        'sidebar-accent': 'var(--color-sidebar-accent)',
-        'sidebar-accent-foreground': 'var(--color-sidebar-accent-foreground)',
-        'sidebar-border': 'var(--color-sidebar-border)',
-        'sidebar-ring': 'var(--color-sidebar-ring)',
+        // Base colors
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        
+        // Card colors
+        card: 'hsl(var(--card))',
+        'card-foreground': 'hsl(var(--card-foreground))',
+        
+        // Popover colors
+        popover: 'hsl(var(--popover))',
+        'popover-foreground': 'hsl(var(--popover-foreground))',
+        
+        // Primary colors
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        
+        // Secondary colors
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        
+        // Muted colors
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        
+        // Accent colors
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        
+        // Destructive colors
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        
+        // Border colors
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        
+        // Sidebar colors
+        sidebar: 'hsl(var(--sidebar))',
+        'sidebar-foreground': 'hsl(var(--sidebar-foreground))',
+        'sidebar-primary': 'hsl(var(--sidebar-primary))',
+        'sidebar-primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+        'sidebar-accent': 'hsl(var(--sidebar-accent))',
+        'sidebar-accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+        'sidebar-border': 'hsl(var(--sidebar-border))',
+        'sidebar-ring': 'hsl(var(--sidebar-ring))',
       },
       borderRadius: {
-        sm: 'var(--radius-sm)',
+        sm: 'calc(var(--radius) - 4px)',
         DEFAULT: 'var(--radius)',
-        md: 'var(--radius-md)',
-        lg: 'var(--radius-lg)',
-        xl: 'var(--radius-xl)',
+        md: 'calc(var(--radius) + 2px)',
+        lg: 'calc(var(--radius) + 4px)',
+        xl: 'calc(var(--radius) + 6px)',
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('tailwindcss-animate')
+  ],
 }
