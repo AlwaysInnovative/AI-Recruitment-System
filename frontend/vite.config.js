@@ -7,6 +7,14 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components')
+    }
+  },
+  build: {
+    rollupOptions: {
+      external: [
+        // Add any problematic dependencies here if needed
+      ]
     }
   }
 });
