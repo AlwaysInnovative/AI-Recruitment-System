@@ -2,96 +2,100 @@
 module.exports = {
   content: [
     "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./components/**/*.{js,jsx,ts,tsx}"
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}"
   ],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // Base colors
+        // Core colors
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         
-        // Card colors
+        // Surface colors
         card: 'hsl(var(--card))',
         'card-foreground': 'hsl(var(--card-foreground))',
-        
-        // Popover colors
         popover: 'hsl(var(--popover))',
         'popover-foreground': 'hsl(var(--popover-foreground))',
         
-        // Primary colors
+        // Semantic colors
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
         },
-        
-        // Secondary colors
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
-        
-        // Muted colors
         muted: {
           DEFAULT: 'hsl(var(--muted))',
           foreground: 'hsl(var(--muted-foreground))',
         },
-        
-        // Accent colors
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
         },
-        
-        // Destructive colors
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
         
-        // Border colors
+        // Border/input colors
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         
-        // Sidebar colors
-        sidebar: 'hsl(var(--sidebar))',
-        'sidebar-foreground': 'hsl(var(--sidebar-foreground))',
-        'sidebar-primary': 'hsl(var(--sidebar-primary))',
-        'sidebar-primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-        'sidebar-accent': 'hsl(var(--sidebar-accent))',
-        'sidebar-accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-        'sidebar-border': 'hsl(var(--sidebar-border))',
-        'sidebar-ring': 'hsl(var(--sidebar-ring))',
+        // State colors (hover/focus)
+        hover: 'hsl(var(--primary))',
+        'hover-foreground': 'hsl(var(--primary-foreground))',
+        focus: 'hsl(var(--ring))',
       },
       borderRadius: {
+        none: '0px',
+        xs: 'calc(var(--radius) - 6px)',
         sm: 'calc(var(--radius) - 4px)',
         DEFAULT: 'var(--radius)',
         md: 'calc(var(--radius) + 2px)',
         lg: 'calc(var(--radius) + 4px)',
         xl: 'calc(var(--radius) + 6px)',
+        full: '9999px',
       },
       keyframes: {
-        "accordion-down": {
-          from: { height: 0 },
-          to: { height: "var(--radix-accordion-content-height)" },
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+        'fade-in': {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+        'slide-in': {
+          from: { transform: 'translateY(20px)', opacity: '0' },
+          to: { transform: 'translateY(0)', opacity: '1' },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
+        'fade-in': 'fade-in 0.3s ease-out',
+        'slide-in': 'slide-in 0.3s ease-out',
+      },
+      transitionProperty: {
+        theme: 'color, background-color, border-color, fill, stroke',
       },
     },
   },
   plugins: [
-    require('@tailwindcss/forms'),
+    require('@tailwindcss/forms')({
+      strategy: 'class', // Only generate classes
+    }),
     require('@tailwindcss/typography'),
-    require('tailwindcss-animate')
+    require('tailwindcss-animate'),
+    require('@tailwindcss/aspect-ratio'),
   ],
 }
