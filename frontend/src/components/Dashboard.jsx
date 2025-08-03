@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  Card, 
+  CardContent, 
+  CardHeader, 
+  CardTitle 
+} from '../../components/ui/card';  // Changed to relative path
+import { Button } from '../../components/ui/button';  // Changed to relative path
+import { 
+  Tabs, 
+  TabsContent, 
+  TabsList, 
+  TabsTrigger 
+} from '../../components/ui/tabs';  // Changed to relative path
 import { 
   Search, 
   Plus, 
@@ -37,9 +47,10 @@ const Dashboard = () => {
           fetch(`${API_BASE}/applications`)
         ]);
 
-        if (!jobsRes.ok || !candidatesRes.ok || !applicationsRes.ok) {
-          throw new Error('Failed to fetch data from API');
-        }
+        // Enhanced error handling
+        if (!jobsRes.ok) throw new Error('Failed to fetch jobs');
+        if (!candidatesRes.ok) throw new Error('Failed to fetch candidates');
+        if (!applicationsRes.ok) throw new Error('Failed to fetch applications');
 
         const [jobsData, candidatesData, applicationsData] = await Promise.all([
           jobsRes.json(),
@@ -47,24 +58,24 @@ const Dashboard = () => {
           applicationsRes.json(),
         ]);
 
-        // Calculate average matching score
-        const matchScores = applicationsData
-          .filter(app => typeof app.matching_score === 'number')
-          .map(app => app.matching_score);
+        // Calculate average matching score with additional validation
+        const validScores = applicationsData
+          .filter(app => typeof app.matching_score === 'number' && !isNaN(app.matching_score))
+          .map(app => Math.min(Math.max(app.matching_score, 0), 1)); // Ensure score is between 0-1
 
-        const avgScore = matchScores.length
-          ? matchScores.reduce((sum, score) => sum + score, 0) / matchScores.length
+        const avgScore = validScores.length > 0
+          ? (validScores.reduce((sum, score) => sum + score, 0) / validScores.length)
           : 0;
 
         setStats({
-          totalJobs: jobsData.length,
-          totalCandidates: candidatesData.length,
-          totalApplications: applicationsData.length,
+          totalJobs: jobsData.length || 0,
+          totalCandidates: candidatesData.length || 0,
+          totalApplications: applicationsData.length || 0,
           avgMatchScore: avgScore,
         });
       } catch (err) {
-        console.error('Error fetching data:', err);
-        setError('Unable to load data. Please try again later.');
+        console.error('API Error:', err);
+        setError(err.message || 'Unable to load dashboard data');
       } finally {
         setLoading(false);
       }
@@ -83,8 +94,17 @@ const Dashboard = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen text-red-600 font-semibold">
-        {error}
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="bg-red-50 p-6 rounded-lg max-w-md text-center">
+          <h2 className="text-xl font-semibold text-red-600 mb-2">Loading Error</h2>
+          <p className="text-red-700">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+          >
+            Retry
+          </button>
+        </div>
       </div>
     );
   }
@@ -148,15 +168,11 @@ const Dashboard = () => {
               />
             </div>
           </TabsContent>
-
-          {/* Add other tab contents here as needed */}
         </Tabs>
       </div>
     </div>
   );
 };
-
-export default Dashboard;
 
 const StatCard = ({ title, value, icon: Icon, description }) => (
   <Card className="hover:shadow-lg transition-shadow duration-200">
@@ -170,3 +186,5 @@ const StatCard = ({ title, value, icon: Icon, description }) => (
     </CardContent>
   </Card>
 );
+
+export default Dashboard;
