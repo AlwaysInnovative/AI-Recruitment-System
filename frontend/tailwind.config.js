@@ -5,7 +5,7 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
     "./components/**/*.{js,jsx,ts,tsx}"
   ],
-  darkMode: 'class',
+  darkMode: 'class', // Enables dark mode via class strategy
   theme: {
     extend: {
       colors: {
@@ -43,9 +43,6 @@ module.exports = {
         md: 'var(--radius-md)',
         lg: 'var(--radius-lg)',
         xl: 'var(--radius-xl)',
-      },
-      outline: {
-        'ring/50': '2px solid rgba(59, 130, 246, 0.5)', // custom outline class
       },
     },
   },
