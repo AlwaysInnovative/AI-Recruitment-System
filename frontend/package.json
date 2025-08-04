@@ -1,4 +1,4 @@
-{
+correct the package.json file for Option A remove prisma from front end .. and react 18 {
   "name": "recruitment-dashboard",
   "version": "1.0.0",
   "private": true,
