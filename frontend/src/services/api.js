@@ -1,65 +1,118 @@
 const API_BASE = 'https://ai-recruitment-system.onrender.com';
 
+// Helper function for API requests
+const makeRequest = async (endpoint, method = 'GET', body = null) => {
+  const config = {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  if (body) {
+    config.body = JSON.stringify(body);
+  }
+
+  const response = await fetch(`${API_BASE}${endpoint}`, config);
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();
+};
+
 export const api = {
-  // Existing endpoints
+  // Candidate endpoints
   getCandidates: async (params = {}) => {
     const query = new URLSearchParams(params).toString();
-    const response = await fetch(`${API_BASE}/candidates?${query}`);
-    return response.json();
+    return makeRequest(`/candidates?${query}`);
   },
 
   createCandidate: async (candidateData) => {
-    const response = await fetch(`${API_BASE}/candidates`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(candidateData),
-    });
-    return response.json();
+    return makeRequest('/candidates', 'POST', candidateData);
   },
 
-  getJobs: async () => {
-    const response = await fetch(`${API_BASE}/jobs`);
-    return response.json();
+  // Job endpoints
+  getJobs: async (params = {}) => {
+    const query = new URLSearchParams(params).toString();
+    return makeRequest(`/jobs?${query}`);
   },
 
-  // NEW Overview endpoints
+  // Overview endpoints
   getOverviewStats: async () => {
-    const response = await fetch(`${API_BASE}/overview/stats`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
+    return makeRequest('/overview/stats');
   },
 
   getRecentActivity: async () => {
-    const response = await fetch(`${API_BASE}/overview/activity`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return response.json();
+    const data = await makeRequest('/overview/activity');
+    return data.activities || [];
   },
 
-  // Enhanced with error handling
+  // Enhanced dashboard endpoint
   getDashboardStats: async () => {
     try {
       const [stats, activity] = await Promise.all([
-        fetch(`${API_BASE}/overview/stats`),
-        fetch(`${API_BASE}/overview/activity`)
+        makeRequest('/overview/stats'),
+        makeRequest('/overview/activity')
       ]);
       
-      if (!stats.ok || !activity.ok) {
-        throw new Error('Failed to fetch dashboard data');
-      }
-      
       return {
-        stats: await stats.json(),
-        activity: (await activity.json()).activities
+        stats,
+        activity: activity.activities || []
       };
     } catch (error) {
       console.error('Dashboard API Error:', error);
-      throw error;
+      throw new Error(`Failed to load dashboard: ${error.message}`);
     }
+  },
+
+  // Add authentication header helper
+  setAuthToken: (token) => {
+    // This would be used to modify the makeRequest function
+    // to include the Authorization header when needed
+    makeRequest.defaults = {
+      ...makeRequest.defaults,
+      headers: {
+        ...makeRequest.defaults?.headers,
+        Authorization: `Bearer ${token}`
+      }
+    };
   }
 };
+
+// Optional: Add request interceptors for global handling
+let requestInterceptors = [];
+let responseInterceptors = [];
+
+export const addRequestInterceptor = (interceptor) => {
+  requestInterceptors.push(interceptor);
+};
+
+export const addResponseInterceptor = (interceptor) => {
+  responseInterceptors.push(interceptor);
+};
+
+// Enhanced makeRequest with interceptors
+const enhancedMakeRequest = async (...args) => {
+  let request = { endpoint: args[0], config: args[1] || {} };
+  
+  // Run request interceptors
+  for (const interceptor of requestInterceptors) {
+    request = await interceptor(request);
+  }
+
+  const response = await makeRequest(request.endpoint, request.config.method, request.config.body);
+  
+  // Run response interceptors
+  let processedResponse = response;
+  for (const interceptor of responseInterceptors) {
+    processedResponse = await interceptor(processedResponse);
+  }
+
+  return processedResponse;
+};
+
+// Replace original makeRequest if using interceptors
+// makeRequest = enhancedMakeRequest;
