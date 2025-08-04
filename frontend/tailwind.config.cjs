@@ -4,7 +4,7 @@ module.exports = {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
-    "./app/**/*.{js,ts,jsx,tsx}" // Add this for Next.js app directory
+    "./app/**/*.{js,ts,jsx,tsx}"
   ],
   darkMode: 'class',
   theme: {
@@ -17,54 +17,35 @@ module.exports = {
     },
     extend: {
       colors: {
-        // Base colors
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
-        
-        // Card colors
         card: 'hsl(var(--card))',
         'card-foreground': 'hsl(var(--card-foreground))',
-        
-        // Popover colors
         popover: 'hsl(var(--popover))',
         'popover-foreground': 'hsl(var(--popover-foreground))',
-        
-        // Primary colors
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
         },
-        
-        // Secondary colors
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
-        
-        // Muted colors
         muted: {
           DEFAULT: 'hsl(var(--muted))',
           foreground: 'hsl(var(--muted-foreground))',
         },
-        
-        // Accent colors
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
         },
-        
-        // Destructive colors
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
-        
-        // Border colors
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        
-        // Success colors (add these to your globals.css)
         success: {
           DEFAULT: 'hsl(var(--success))',
           foreground: 'hsl(var(--success-foreground))',
@@ -106,7 +87,6 @@ module.exports = {
       strategy: "class",
     }),
     require("@tailwindcss/typography"),
-    require("tailwindcss-animate"),
-    require("@tailwindcss/aspect-ratio"),
+    require("tailwindcss-animate")
   ],
 }
