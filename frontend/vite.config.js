@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react'
 import eslint from 'vite-plugin-eslint'
 import svgr from 'vite-plugin-svgr'
 import path from 'path'
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
 
 export default defineConfig({
   plugins: [
@@ -21,8 +23,8 @@ export default defineConfig({
   css: {
     postcss: {
       plugins: [
-        require('tailwindcss'),
-        require('autoprefixer')
+        tailwindcss(),
+        autoprefixer()
       ]
     },
     modules: {
