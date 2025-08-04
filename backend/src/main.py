@@ -13,6 +13,7 @@ from src.routes.application import application_bp
 from src.routes.agency import agency_bp
 from src.routes.matching import matching_bp
 from src.routes.communication import communication_bp
+from src.routes.overview import overview_bp
 
 app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
@@ -21,6 +22,7 @@ app.config['SECRET_KEY'] = 'asdf#FGSgvasgf$5$WGT'
 CORS(app)
 
 # Register all blueprints
+app.register_blueprint(overview_bp, url_prefix='/api')
 app.register_blueprint(user_bp, url_prefix='/api')
 app.register_blueprint(job_bp, url_prefix='/api')
 app.register_blueprint(candidate_bp, url_prefix='/api')
