@@ -1,21 +1,36 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, message, InputNumber, Select } from 'antd';
+import { Form, Input, Button, message, InputNumber, Select, Card, Row, Col } from 'antd';
 import { createJob } from '../../api/jobs';
 import { JobCreate } from '../../types';
+import RichTextEditor from './RichTextEditor';
 
 const { TextArea } = Input;
 const { Option } = Select;
 
-const JobForm: React.FC = () => {
+interface JobFormProps {
+  onSuccess?: () => void;
+}
+
+const JobForm: React.FC<JobFormProps> = ({ onSuccess }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [description, setDescription] = useState('');
+  const [requirements, setRequirements] = useState('');
 
   const onFinish = async (values: JobCreate) => {
     try {
       setLoading(true);
-      await createJob(values);
+      const completeValues = {
+        ...values,
+        description,
+        requirements
+      };
+      await createJob(completeValues);
       message.success('Job posted successfully!');
       form.resetFields();
+      setDescription('');
+      setRequirements('');
+      if (onSuccess) onSuccess();
     } catch (error) {
       message.error('Failed to create job posting');
     } finally {
@@ -24,90 +39,107 @@ const JobForm: React.FC = () => {
   };
 
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      onFinish={onFinish}
-      initialValues={{ status: 'open' }}
-    >
-      <Form.Item
-        name="title"
-        label="Job Title"
-        rules={[{ required: true, message: 'Please input job title!' }]}
+    <Card title="Create New Job Posting" bordered={false}>
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={onFinish}
+        initialValues={{ status: 'open' }}
       >
-        <Input placeholder="Senior Software Engineer" />
-      </Form.Item>
+        <Row gutter={16}>
+          <Col span={12}>
+            <Form.Item
+              name="title"
+              label="Job Title"
+              rules={[{ required: true, message: 'Please input job title!' }]}
+            >
+              <Input placeholder="e.g. Senior Software Engineer" />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              name="location"
+              label="Location"
+              rules={[{ required: true, message: 'Please input job location!' }]}
+            >
+              <Input placeholder="e.g. Remote, New York, etc." />
+            </Form.Item>
+          </Col>
+        </Row>
 
-      <Form.Item
-        name="description"
-        label="Job Description"
-        rules={[{ required: true, message: 'Please input job description!' }]}
-      >
-        <TextArea rows={4} />
-      </Form.Item>
+        <Form.Item
+          label="Job Description"
+          required
+        >
+          <RichTextEditor 
+            value={description}
+            onChange={setDescription}
+            placeholder="Enter detailed job description..."
+          />
+        </Form.Item>
 
-      <Form.Item
-        name="requirements"
-        label="Requirements"
-        rules={[{ required: true, message: 'Please input job requirements!' }]}
-      >
-        <TextArea rows={4} />
-      </Form.Item>
+        <Form.Item
+          label="Requirements"
+          required
+        >
+          <RichTextEditor
+            value={requirements}
+            onChange={setRequirements}
+            placeholder="List all job requirements..."
+          />
+        </Form.Item>
 
-      <Form.Item
-        name="location"
-        label="Location"
-        rules={[{ required: true, message: 'Please input job location!' }]}
-      >
-        <Input placeholder="Remote, New York, etc." />
-      </Form.Item>
+        <Row gutter={16}>
+          <Col span={8}>
+            <Form.Item
+              name={['salary_range', 'min']}
+              label="Minimum Salary"
+              rules={[{ required: true, message: 'Please input minimum salary' }]}
+            >
+              <InputNumber
+                style={{ width: '100%' }}
+                min={0}
+                formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                parser={value => value?.replace(/\$\s?|(,*)/g, '') || ''}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item
+              name={['salary_range', 'max']}
+              label="Maximum Salary"
+              rules={[{ required: true, message: 'Please input maximum salary' }]}
+            >
+              <InputNumber
+                style={{ width: '100%' }}
+                min={0}
+                formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                parser={value => value?.replace(/\$\s?|(,*)/g, '') || ''}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item
+              name="status"
+              label="Status"
+              rules={[{ required: true }]}
+            >
+              <Select>
+                <Option value="open">Open</Option>
+                <Option value="closed">Closed</Option>
+                <Option value="draft">Draft</Option>
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
 
-      <Form.Item label="Salary Range">
-        <Input.Group compact>
-          <Form.Item
-            name={['salary_range', 'min']}
-            noStyle
-            rules={[{ required: true, message: 'Min salary required' }]}
-          >
-            <InputNumber
-              style={{ width: '45%' }}
-              placeholder="Minimum"
-              min={0}
-              formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            />
-          </Form.Item>
-          <Form.Item
-            name={['salary_range', 'max']}
-            noStyle
-            rules={[{ required: true, message: 'Max salary required' }]}
-          >
-            <InputNumber
-              style={{ width: '45%', marginLeft: '10%' }}
-              placeholder="Maximum"
-              min={0}
-              formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            />
-          </Form.Item>
-        </Input.Group>
-      </Form.Item>
-
-      <Form.Item
-        name="status"
-        label="Status"
-        rules={[{ required: true }]}
-      >
-        <Select>
-          <Option value="open">Open</Option>
-          <Option value="closed">Closed</Option>
-        </Select>
-      </Form.Item>
-
-      <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          Post Job
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" loading={loading} size="large">
+            Publish Job
+          </Button>
+        </Form.Item>
+      </Form>
+    </Card>
   );
 };
 
